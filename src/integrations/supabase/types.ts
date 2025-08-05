@@ -14,16 +14,191 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      event_config: {
+        Row: {
+          access_code: string
+          created_at: string | null
+          event_date: string
+          id: string
+          pix_key: string
+          updated_at: string | null
+          welcome_message: string | null
+        }
+        Insert: {
+          access_code: string
+          created_at?: string | null
+          event_date: string
+          id?: string
+          pix_key: string
+          updated_at?: string | null
+          welcome_message?: string | null
+        }
+        Update: {
+          access_code?: string
+          created_at?: string | null
+          event_date?: string
+          id?: string
+          pix_key?: string
+          updated_at?: string | null
+          welcome_message?: string | null
+        }
+        Relationships: []
+      }
+      gifts: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          image_url: string | null
+          is_selected: boolean | null
+          name: string
+          selected_at: string | null
+          selected_by: string | null
+          suggested_price: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_selected?: boolean | null
+          name: string
+          selected_at?: string | null
+          selected_by?: string | null
+          suggested_price?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_selected?: boolean | null
+          name?: string
+          selected_at?: string | null
+          selected_by?: string | null
+          suggested_price?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gifts_selected_by_fkey"
+            columns: ["selected_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pix_contributions: {
+        Row: {
+          amount: number
+          contributor_name: string
+          contributor_phone: string | null
+          created_at: string | null
+          id: string
+          receipt_url: string
+          verified: boolean | null
+        }
+        Insert: {
+          amount: number
+          contributor_name: string
+          contributor_phone?: string | null
+          created_at?: string | null
+          id?: string
+          receipt_url: string
+          verified?: boolean | null
+        }
+        Update: {
+          amount?: number
+          contributor_name?: string
+          contributor_phone?: string | null
+          created_at?: string | null
+          id?: string
+          receipt_url?: string
+          verified?: boolean | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          full_name: string
+          id: string
+          phone: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          full_name: string
+          id?: string
+          phone?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          full_name?: string
+          id?: string
+          phone?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      rsvp: {
+        Row: {
+          access_code_used: string
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          phone: string
+          session_id: string | null
+        }
+        Insert: {
+          access_code_used: string
+          created_at?: string | null
+          email: string
+          full_name: string
+          id?: string
+          phone: string
+          session_id?: string | null
+        }
+        Update: {
+          access_code_used?: string
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string
+          session_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _user_id: string
+          _role: Database["public"]["Enums"]["app_role"]
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "guest"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +325,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "guest"],
+    },
   },
 } as const
